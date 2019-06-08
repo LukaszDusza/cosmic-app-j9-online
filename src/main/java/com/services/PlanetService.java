@@ -21,6 +21,12 @@ public class PlanetService {
         return planetRepository.findPlanetByName(planetName).get();
     }
 
+    public Optional<Planet> getOptionalPlanetByName(String planetName) {
+        return Optional.of(planetRepository
+                .findPlanetByName(planetName))
+                .orElse(Optional.empty());
+    }
+
     public List<Planet> getPlanets() {
         return planetRepository.findAll();
     }
