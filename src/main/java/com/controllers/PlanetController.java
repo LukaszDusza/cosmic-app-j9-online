@@ -5,10 +5,7 @@ import com.services.PlanetService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,9 +25,14 @@ public class PlanetController {
         return "empty";
     }
 
-    @GetMapping("/api/v1/planet")
+    @GetMapping("/api/v1/planet") //todo - obsluzyc brak wartosic po stronie servisu
     public ResponseEntity<Planet> getPlanetByName(@RequestParam(value = "name") String planetName) {
-        return new ResponseEntity<>(planetService.getPlanetByName(planetName), HttpStatus.OK);
+        Planet result = planetService.getPlanetByName(planetName); //option null
+        if(result != null) {
+            return new ResponseEntity<>(planetService.getPlanetByName(planetName), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/api/v1/planet/optional")
@@ -47,4 +49,32 @@ public class PlanetController {
         }
     }
 
+    @PostMapping("/api/v1/planet")
+    public ResponseEntity<Planet> addPlanet(@RequestBody Planet planet) {
+        return ResponseEntity
+                .ok()
+                .header("example_header", "example_header_1")
+                .body(planetService.savePlanet(planet));
+
+    }
+
+    @PutMapping("/api/v1/planet")
+    public ResponseEntity<Planet> updatePlanet(@RequestParam(value = "name") String planetName, @RequestBody Planet planet) {
+        Planet result = planetService.updatePlanet(planetName, planet);
+        if(result != null) {
+            return ResponseEntity
+                    .ok()
+                    .header("example_header", "example_header_1")
+                    .body(result);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @DeleteMapping("/api/v1/planet")
+    public ResponseEntity<?> deletePlanetByName(@RequestParam(value = "name") String planetName) {
+        if(planetService.deletePlanetByName(planetName)) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 }
