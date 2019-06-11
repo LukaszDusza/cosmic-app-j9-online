@@ -20,12 +20,10 @@ public class PlanetController {
         this.planetService = planetService;
     }
 
-    @GetMapping({"/", "/api","/api/v1"})
-    public String message() {
-        return "empty";
-    }
+    //todo - obsluzyc brak wartosic po stronie servisu
+    //todo - dodac Swagger do aplikacji w com.commons.swagger
 
-    @GetMapping("/api/v1/planet") //todo - obsluzyc brak wartosic po stronie servisu
+    @GetMapping("/api/v1/planet")
     public ResponseEntity<Planet> getPlanetByName(@RequestParam(value = "name") String planetName) {
         Planet result = planetService.getPlanetByName(planetName); //option null
         if(result != null) {
@@ -42,7 +40,7 @@ public class PlanetController {
 
     @GetMapping("/api/v1/planets")
     public List<Planet> getPlanets(@RequestParam(value = "param", required = false) String param) {
-        if (StringUtils.isEmpty(param)) {
+        if (param != null) {
             return planetService.getPlanets();
         } else {
             return planetService.getPlanets(param);

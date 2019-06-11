@@ -15,21 +15,6 @@ public class PlanetService {
 
     public PlanetService(PlanetRepository planetRepository) {
         this.planetRepository = planetRepository;
-        mockPlanets();
-    }
-
-    private void mockPlanets() {
-        planetRepository.save(Planet
-                .builder()
-                .planetName("Mars")
-                .distanceFromSun(4642398934L)
-                .lengthOfYear(450)
-                .oneWayLightTimeToTheSun(4.6)
-                .planetImage("image")
-                .planetInfo("mars planet")
-                .planetType("terrain")
-                .build()
-        );
     }
 
     public Planet getPlanetByName(String planetName) {
