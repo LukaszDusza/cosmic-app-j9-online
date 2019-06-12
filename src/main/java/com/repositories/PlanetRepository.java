@@ -16,7 +16,7 @@ public interface PlanetRepository extends JpaRepository<Planet, Long> {
     // @Query(value = "select * from planets where  planet_name = ?1", nativeQuery = true) //SQL
     @Query("select p from Planet p where p.planetName = ?1")
     //JPQL
-    Optional<Planet> findPlanetByName(String planetName);
+    Planet findPlanetByName(String planetName);
 
     @Query("select p from Planet p where " +
             "p.planetName like %?1% " +

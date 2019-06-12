@@ -4,11 +4,9 @@ import com.models.Planet;
 import com.services.PlanetService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/")
@@ -26,16 +24,11 @@ public class PlanetController {
     @GetMapping("/api/v1/planet")
     public ResponseEntity<Planet> getPlanetByName(@RequestParam(value = "name") String planetName) {
         Planet result = planetService.getPlanetByName(planetName); //option null
-        if(result != null) {
+        if (result != null) {
             return new ResponseEntity<>(planetService.getPlanetByName(planetName), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-    }
-
-    @GetMapping("/api/v1/planet/optional")
-    public ResponseEntity<Optional<Planet>> getPlanetByNameOptional(@RequestParam(value = "name") String planetName) {
-        return new ResponseEntity<>(planetService.getOptionalPlanetByName(planetName), HttpStatus.OK);
     }
 
     @GetMapping("/api/v1/planets")
@@ -59,7 +52,7 @@ public class PlanetController {
     @PutMapping("/api/v1/planet")
     public ResponseEntity<Planet> updatePlanet(@RequestParam(value = "name") String planetName, @RequestBody Planet planet) {
         Planet result = planetService.updatePlanet(planetName, planet);
-        if(result != null) {
+        if (result != null) {
             return ResponseEntity
                     .ok()
                     .header("example_header", "example_header_1")
@@ -70,7 +63,7 @@ public class PlanetController {
 
     @DeleteMapping("/api/v1/planet")
     public ResponseEntity<?> deletePlanetByName(@RequestParam(value = "name") String planetName) {
-        if(planetService.deletePlanetByName(planetName)) {
+        if (planetService.deletePlanetByName(planetName)) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

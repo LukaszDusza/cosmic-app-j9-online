@@ -4,6 +4,8 @@ package com.models;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -38,5 +40,12 @@ public class Planet {
 
     @Column(name = "planet_image")
     private String planetImage;
+
+    @ManyToMany( cascade = {
+            CascadeType.ALL})
+    @JoinTable(name = "planets_tags",
+            joinColumns = @JoinColumn(name = "planet_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private Set<Tag> tags = new HashSet<>();
 
 }
