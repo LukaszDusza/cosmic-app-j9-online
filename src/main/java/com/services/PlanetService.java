@@ -1,20 +1,25 @@
 package com.services;
 
 
+import com.commons.mappers.PlanetMapper;
 import com.models.Planet;
+import com.models.PlanetDto;
 import com.repositories.PlanetRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PlanetService {
 
     private PlanetRepository planetRepository;
+    private PlanetMapper planetMapper;
 
-    public PlanetService(PlanetRepository planetRepository) {
+    public PlanetService(PlanetRepository planetRepository, PlanetMapper planetMapper) {
         this.planetRepository = planetRepository;
+        this.planetMapper = planetMapper;
     }
 
     public Planet getPlanetByName(String planetName) {
@@ -33,6 +38,14 @@ public class PlanetService {
 
     public List<Planet> getPlanets() {
         return planetRepository.findAll();
+    }
+
+    public List<PlanetDto> getPlanetsDto() {
+        return planetRepository
+                .findAll()
+                .stream()
+                .map(planetMapper::map)
+                .collect(Collectors.toList());
     }
 
     public List<Planet> getPlanets(String param) {

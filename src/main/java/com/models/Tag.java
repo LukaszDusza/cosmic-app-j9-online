@@ -1,5 +1,6 @@
 package com.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -20,6 +21,7 @@ public class Tag {
     private Long id;
     private String title;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "tags")
     private Set<Planet> planets = new HashSet<>();
 

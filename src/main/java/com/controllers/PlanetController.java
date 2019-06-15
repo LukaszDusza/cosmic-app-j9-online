@@ -1,6 +1,7 @@
 package com.controllers;
 
 import com.models.Planet;
+import com.models.PlanetDto;
 import com.services.PlanetService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,16 +32,22 @@ public class PlanetController {
         }
     }
 
-    @GetMapping("/api/v1/planets")
-    public List<Planet> getPlanets(@RequestParam(value = "param", required = false) String param) {
-        if (param != null) {
+    @GetMapping(value = "/api/v1/planets", produces = "application/json")
+    public List<Planet> getPlanets() {
             return planetService.getPlanets();
-        } else {
-            return planetService.getPlanets(param);
-        }
     }
 
-    @PostMapping("/api/v1/planet")
+    @GetMapping(value = "/api/v1/planets/dto", produces = "application/json")
+    public List<PlanetDto> getPlanetsDto() {
+            return planetService.getPlanetsDto();
+    }
+
+    @GetMapping(value = "/api/v1/planets/dto/xml", produces = "application/xml")
+    public List<PlanetDto> getPlanetsDtoXml() {
+        return planetService.getPlanetsDto();
+    }
+
+    @PostMapping( value = "/api/v1/planet", produces = "application/json")
     public ResponseEntity<Planet> addPlanet(@RequestBody Planet planet) {
         return ResponseEntity
                 .ok()
@@ -49,7 +56,7 @@ public class PlanetController {
 
     }
 
-    @PutMapping("/api/v1/planet")
+    @PutMapping( value = "/api/v1/planet", produces = "application/json")
     public ResponseEntity<Planet> updatePlanet(@RequestParam(value = "name") String planetName, @RequestBody Planet planet) {
         Planet result = planetService.updatePlanet(planetName, planet);
         if (result != null) {
@@ -61,7 +68,7 @@ public class PlanetController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @DeleteMapping("/api/v1/planet")
+    @DeleteMapping(value = "/api/v1/planet", produces = "application/json")
     public ResponseEntity<?> deletePlanetByName(@RequestParam(value = "name") String planetName) {
         if (planetService.deletePlanetByName(planetName)) {
             return new ResponseEntity<>(HttpStatus.OK);
