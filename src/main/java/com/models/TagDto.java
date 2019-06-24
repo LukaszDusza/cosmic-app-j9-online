@@ -12,4 +12,6 @@ public class TagDto {
     private String title;
     private Set<String> planetNames = new HashSet<>();
 
+    // todo zrob klase TagsMapper i zaimplementuj metodę map(). Analogicznie jak planetMapper.
+
 }
